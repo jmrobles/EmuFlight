@@ -190,3 +190,6 @@ uint8_t CRSFgetSnR(void);
 uint16_t CRSFgetTXPower(void);
 
 uint16_t rxGetRefreshRate(void);
+
+void rxSpiBind(void);
+bool rxSpiCheckBindRequested(bool reset);

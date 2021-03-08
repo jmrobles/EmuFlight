@@ -37,6 +37,7 @@ void pgResetFn_rxSpiConfig(rxSpiConfig_t *rxSpiConfig) {
     rxSpiConfig->rx_spi_protocol = RX_SPI_DEFAULT_PROTOCOL;
     // Basic SPI
     rxSpiConfig->csnTag = IO_TAG(RX_NSS_PIN);
+    rxSpiConfig->bindIoTag = IO_TAG(BINDPLUG_PIN);
     rxSpiConfig->spibus = SPI_DEV_TO_CFG(spiDeviceByInstance(RX_SPI_INSTANCE));
 }
 #endif

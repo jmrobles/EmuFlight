@@ -388,6 +388,13 @@ rx_spi_received_e flySkyDataReceived (uint8_t *payload) {
         A7105Strobe(A7105_TX);
         waitTx = false;
     }
+    if (rxSpiCheckBindRequested(true)) {
+        bound = false;
+        txId = 0;
+        memset(rfChannelMap, 0, FLYSKY_FREQUENCY_COUNT);
+        uint8_t bindChannel = (protocol == RX_SPI_A7105_FLYSKY_2A) ? flySky2ABindChannels[0] : 0;
+        A7105WriteReg(A7105_0F_CHANNEL, bindChannel);
+    }
     if (bound) {
         checkTimeout();
 #ifdef USE_RX_FLYSKY_SPI_LED

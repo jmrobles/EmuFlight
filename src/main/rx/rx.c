@@ -119,6 +119,12 @@ uint32_t rcInvalidPulsPeriod[MAX_SUPPORTED_RC_CHANNEL_COUNT];
 rxRuntimeConfig_t rxRuntimeConfig;
 static uint8_t rcSampleIndex = 0;
 
+#ifdef USE_RX_SPI
+static IO_t bindPin;
+static bool bindRequested;
+static bool lastBindPinStatus;
+#endif
+
 PG_REGISTER_ARRAY_WITH_RESET_FN(rxChannelRangeConfig_t, NON_AUX_CHANNEL_COUNT, rxChannelRangeConfigs, PG_RX_CHANNEL_RANGE_CONFIG, 0);
 void pgResetFn_rxChannelRangeConfigs(rxChannelRangeConfig_t *rxChannelRangeConfigs) {
     // set default calibration to full range and 1:1 mapping
@@ -670,4 +676,30 @@ uint16_t rxGetRefreshRate(void) {
 
 bool isRssiConfigured(void) {
     return rssiSource != RSSI_SOURCE_NONE;
+}
+
+void rxSpiBind(void)
+{
+    bindRequested = true;
+}
+
+bool rxSpiCheckBindRequested(bool reset)
+{
+    if (bindPin) {
+        bool bindPinStatus = IORead(bindPin);
+        if (lastBindPinStatus && !bindPinStatus) {
+            bindRequested = true;
+        }
+        lastBindPinStatus = bindPinStatus;
+    }
+
+    if (!bindRequested) {
+        return false;
+    } else {
+        if (reset) {
+            bindRequested = false;
+        }
+
+        return true;
+    }
 }

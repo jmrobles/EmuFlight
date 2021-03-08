@@ -2397,6 +2397,16 @@ void cliRxBind(char *cmdline) {
         cliPrint("Binding...");
         break;
 #endif
+#ifdef USE_RX_FLYSKY
+    case RX_SPI_A7105_FLYSKY:
+    case RX_SPI_A7105_FLYSKY_2A:
+#endif
+#if defined(USE_RX_FRSKY_SPI) || defined(USE_RX_SFHSS_SPI) || defined(USE_RX_FLYSKY) || defined(USE_RX_SPEKTRUM)
+        
+        rxSpiBind();
+        
+        break;
+#endif
     default:
         cliPrint("Not supported.");
         break;
@@ -4361,7 +4371,7 @@ const clicmd_t cmdTable[] = {
     CLI_COMMAND_DEF("flash_write", NULL, "<address> <message>", cliFlashWrite),
 #endif
 #endif
-#ifdef USE_RX_CC2500_BIND
+#ifdef USE_RX_BIND
     CLI_COMMAND_DEF("bind", "initiate binding for RX", NULL, cliRxBind),
 #endif
     CLI_COMMAND_DEF("get", "get variable value", "[name]", cliGet),

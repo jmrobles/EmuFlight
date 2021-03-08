@@ -30,7 +30,7 @@ typedef struct rxSpiConfig_s {
     // nrf24: 0 = v202 250kbps. (Must be enabled by FEATURE_RX_NRF24 first.)
     uint32_t rx_spi_id;
     uint8_t rx_spi_rf_channel_count;
-
+    ioTag_t bindIoTag;
     // SPI Bus
     ioTag_t csnTag;
     uint8_t spibus;
